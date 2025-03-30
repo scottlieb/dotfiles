@@ -1,0 +1,12 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =6
+let g:netrw_dirhist_6='/home/amitaig/.vim'
+let g:netrw_dirhist_5='/home/amitaig/platform-sw/hailort/drivers/linux/vdma'
+let g:netrw_dirhist_4='/home/amitaig/.config/i3'
+let g:netrw_dirhist_3='/home/amitaig/.config/rofi'
+let g:netrw_dirhist_2='/home/amitaig/platform-sw'
+let g:netrw_dirhist_1='scp://amitaig@10.41.75.37//local/users/amitaig/platform-sw/'
+let g:netrw_dirhist_0='scp://amitaig@10.41.75.37//local/users/amitaig/platform-sw/hailort/hrpc/'
+let g:netrw_dirhist_9='scp://amitaig@10.41.75.37//local/users/amitaig/platform-sw/hailort/'
+let g:netrw_dirhist_8='scp://amitaig@10.41.75.37//local/users/amitaig/platform-sw/'
+let g:netrw_dirhist_7='scp://amitaig@10.41.75.37/local/users/amitaig/platform-sw/'
