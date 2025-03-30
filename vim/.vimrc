@@ -11,6 +11,9 @@ Plug 'junegunn/fzf.vim'
 " LSP Client + Completion
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
+" Better C/C++ syntax highlighting
+Plug 'bfrg/vim-c-cpp-modern'
+
 " Insert/delete brackets, quotes, etc. in pairs
 Plug 'jiangmiao/auto-pairs'
 
