@@ -20,9 +20,6 @@ Plug 'jiangmiao/auto-pairs'
 " Git Gutter
 Plug 'mhinz/vim-signify'
 
-" Git Blame in status-line
-Plug 'zivyangll/git-blame.vim'
-
 " Status-line
 Plug 'itchyny/lightline.vim'
 
@@ -94,12 +91,6 @@ filetype plugin indent on
 let &t_SI = "\<esc>[5 q"  " blinking I-beam in insert mode
 let &t_SR = "\<esc>[3 q"  " blinking underline in replace mode
 let &t_EI = "\<esc>[ q"  " default cursor (usually blinking block) otherwise
-
-" run 'git blame' one line when idle
-augroup gitblame
-    autocmd!
-    autocmd CursorHold * call gitblame#echo()
-augroup END
 
 " ############
 " # mappings #
