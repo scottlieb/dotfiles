@@ -8,3 +8,4 @@
 - Xmodmap
 - tmux plugin (tpm)
 - dunst
+- pasystary volume control
