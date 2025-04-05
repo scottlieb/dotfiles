@@ -7,3 +7,4 @@
 - some font-awsome doesnt work by default (ws 2,3 not rendering)
 - Xmodmap
 - tmux plugin (tpm)
+- dunst
