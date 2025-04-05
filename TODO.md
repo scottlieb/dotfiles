@@ -5,3 +5,4 @@
 - terminal colorscheme
 - gtk theme + icons
 - some font-awsome doesnt work by default (ws 2,3 not rendering)
+- Xmodmap
