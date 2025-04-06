@@ -18,7 +18,7 @@ exec --no-startup-id dex --autostart --environment i3
 
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 # screen before suspend. Use loginctl lock-session to lock your screen.
-exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+exec --no-startup-id xss-lock --transfer-sleep-lock -- ~/.config/i3/lock.sh
 
 # indicator-sound-switcher is a small app that sits in the status-bar
 # and allows easy switching between sound sources
@@ -54,17 +54,17 @@ for_window [urgent="latest" class="Google-chrome"] focus
 for_window [urgent="latest" class="firefox"] focus
 for_window [all] focus
 
-# composite manage (transparency + other window stuff)
-exec --no-startup-id compton -b -f -D 2
+# composite manage (transparency + other window stuff) ((should really be a config))
+exec --no-startup-id compton -b -f -D 1 -i 0.75 -m 1.0 --active-opacity 0.92 -r 10 -c -z --focus-exclude 'class_g = "Rofi"' --focus-exclude 'class_g = "i3lock"'
 
 # window borders
-for_window [all] border pixel 3
+for_window [all] border pixel 0
 
 # smart-split (pip3 install autotiling)
 exec_always --no-startup-id (ps -A | grep autotiling) || autotiling
 
 # gaps (for losers)
-# gaps inner 7
+gaps inner 15
 # gaps outer 3
 
 ############
@@ -233,7 +233,7 @@ exec --no-startup-id xmodmap /home/amitaig/.Xmodmap
 
 # Color-Scheme (gruvbox)
 
-set $bg #282828
+set $bg #323232
 set $red #cc241d
 set $green #98971a
 set $yellow #d79921
