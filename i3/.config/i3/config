@@ -22,7 +22,7 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 
 # indicator-sound-switcher is a small app that sits in the status-bar
 # and allows easy switching between sound sources
-exec --no-startup-id pasystray -m 100 -n 5 --notify=sink
+exec --no-startup-id pkill pasystary && pasystray -m 100 -n 5 --notify=sink
 
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
