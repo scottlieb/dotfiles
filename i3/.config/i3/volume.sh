@@ -20,7 +20,7 @@ function send_notification {
     # bar=$(seq -s "─" $(($volume / 5)) | sed 's/[0-9]//g')
     # bar=$(seq -s "" $(($volume / 5)) | sed 's/[0-9]//g')
     # Send the notification
-    dunstify -t 1500 -r 2593 -u normal "$1 $volume%"
+    dunstify -t 1500 -r 2593 -u normal "$1  $volume%"
 }
 
 case $1 in
