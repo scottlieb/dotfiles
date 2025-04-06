@@ -20,7 +20,7 @@
 }
 
 window {
-    border: 4 4 4 4;
+    border: 0 0 0 0;
     border-color: @grey0;
 }
 
@@ -41,8 +41,8 @@ message {
 }
 
 listview {
-    padding: 8;
-    border: 2 2 2 2;
+    padding: 0;
+    border: 0 0 0 0;
     border-color: @bg0;
     background-color: @bg0;
     dynamic: false;
