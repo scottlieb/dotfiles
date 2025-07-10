@@ -49,5 +49,5 @@
 ;; (unpin! t)
 
 (package! diff-hl)
-
 (package! gruvbox-theme)
+(package! mood-line)

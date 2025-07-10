@@ -1,48 +1,8 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 
-;; Place your private configuration here! Remember, you do not need to run 'doom
-;; sync' after modifying this file!
-
-
-;; Some functionality uses this to identify you, e.g. GPG configuration, email
-;; clients, file templates and snippets. It is optional.
-(setq user-full-name "Amitai Gottlieb"
-      user-mail-address "amitaig@hailo.ai")
-
-;; Doom exposes five (optional) variables for controlling fonts in Doom:
-;;
-;; - `doom-font' -- the primary font to use
-;; - `doom-variable-pitch-font' -- a non-monospace font (where applicable)
-;; - `doom-big-font' -- used for `doom-big-font-mode'; use this for
-;;   presentations or streaming.
-;; - `doom-symbol-font' -- for symbols
-;; - `doom-serif-font' -- for the `fixed-pitch-serif' face
-
-(setq doom-font (font-spec :family "JetBrainsMono NF" :size 15))
-
-;; See 'C-h v doom-font' for documentation and more examples of what they
-;; accept. For example:
-;;
-;;(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
-;;      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
-;;
-;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
-;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
-;; refresh your font settings. If Emacs still can't find your font, it likely
-;; wasn't installed correctly. Font issues are rarely Doom issues!
-
-;; There are two ways to load a theme. Both assume the theme is installed and
-;; available. You can either set `doom-theme' or manually load a theme with the
-;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-gruvbox-light)
-
-;; This determines the style of line numbers in effect. If set to `nil', line
-;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setq display-line-numbers-type 'relative)
-
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/org/")
+;;(setq org-directory "~/org/")
 
 ;; Whenever you reconfigure a package, make sure to wrap your config in an
 ;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
@@ -76,26 +36,74 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
+;; ######
+;; GLOBAL
+;; ######
+
+(setq user-full-name "Amitai Gottlieb"
+      user-mail-address "amitaig@hailo.ai")
+
+;; ###########
+;; KEYBINDINGS
+;; ###########
+
+;; Alt-o to swtich between header/source files
+(map! "M-o" #'lsp-clangd-find-other-file)
+
+(map! "C-l" #'evil-ex-nohighlight)
+
+(map! :nv "g r" #'+lookup/references)
+
+;; #############
+;; LOOK AND FEEL
+;; #############
+
+;; Theme
+(setq doom-theme 'gruvbox-light-medium)
+(setq doom-font (font-spec :family "JetBrainsMono NF" :size 15))
+(custom-theme-set-faces! 'gruvbox-light-medium '(mode-line :background "#ebdbb2"))
+(custom-theme-set-faces! 'gruvbox-light-medium '(line-number :foreground "#666666" :background "#fbf1c7"))
+
+;; Sexy DOOM splash-screen
+(remove-hook '+doom-dashboard-functions #'doom-dashboard-widget-shortmenu)
+(remove-hook '+doom-dashboard-functions #'doom-dashboard-widget-loaded)
+(remove-hook '+doom-dashboard-functions #'doom-dashboard-widget-footer)
+
+;; Relative Numbers
+(setq display-line-numbers-type 'relative)
+
 ;; Scrolloff
 (setq scroll-step 1)
 (setq scroll-margin 15)
 
-;; Some keybindings
+;; Ruler at 120
+(setq-default fill-column 120)
+(global-display-fill-column-indicator-mode 1)
 
-;; Alt-o to swtich between source/header
-(bind-key "M-o" 'lsp-clangd-find-other-file)
-(bind-key "C-l" 'evil-ex-nohighlight)
+;; Mood line (super-minimalist mode-line)
+(use-package! mood-line
+  :config
+  (mood-line-mode))
 
 ;; Use tree-sitter for better syntax-highlighting
 (global-tree-sitter-mode)
 (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
 
-;; Auto-save after 1 second
-(setq auto-save-timeout 1)
+;; #############################
+;; FILES, AUTO-SAVES AND BACKUPS
+;; #############################
 
-;; Ruler at 120
-(setq-default fill-column 120)
-(global-display-fill-column-indicator-mode)
+;; Fast auto-save, always
+(auto-save-mode +1)
+(setq auto-save-visited-interval 1)
+(auto-save-visited-mode +1)
+
+;; No backup files, please
+(setq make-backup-files nil)
+
+;; ##############
+;; REMOTE EDITING
+;; ##############
 
 ;; To fix vc-gutter over ssh
 (use-package! diff-hl
@@ -104,3 +112,10 @@
   ;; Fix Doom disabling vc in remote buffers
   (after! tramp
     (setopt vc-ignore-dir-regexp locate-dominating-stop-dir-regexp)))
+
+;; Tramp settings
+(after! tramp
+  ;; https://github.com/doomemacs/doomemacs/issues/6502
+  (setq tramp-auto-save-directory nil)
+  ;; Use rsync to sync remote files; faster on large files.
+  (setq tramp-default-method "rsync"))
