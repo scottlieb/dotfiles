@@ -54,6 +54,14 @@
 
 (map! :nv "g r" #'+lookup/references)
 
+;; #######
+;; EDITING
+;; #######
+
+;; Make word selection like vim
+(add-hook 'after-change-major-mode-hook
+  #'(lambda () (modify-syntax-entry ?_ "w")))
+
 ;; #############
 ;; LOOK AND FEEL
 ;; #############
