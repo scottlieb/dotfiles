@@ -43,28 +43,23 @@
 (setq user-full-name "Amitai Gottlieb"
       user-mail-address "amitaig@hailo.ai")
 
-;; ###########
-;; KEYBINDINGS
-;; ###########
-
-;; Alt-o to swtich between header/source files
-(map! "M-o" #'lsp-clangd-find-other-file)
-
-(map! "C-l" #'evil-ex-nohighlight)
-
-(map! :nv "g r" #'+lookup/references)
-
-;; #######
-;; EDITING
-;; #######
-
-;; Make word selection like vim
-(add-hook 'after-change-major-mode-hook
-  #'(lambda () (modify-syntax-entry ?_ "w")))
-
 ;; #############
 ;; LOOK AND FEEL
 ;; #############
+
+;; Sexy DOOM Dashboard!
+(defun doom-dashboard-custom-look ()
+  (interactive)
+  (face-remap-add-relative 'doom-dashboard-banner '(:foreground "black"))
+  (make-local-variable 'evil-normal-state-cursor)
+  (setq mode-line-format nil)
+  (setq evil-normal-state-cursor '("#fbf1c6" 'bar)))
+
+(add-hook '+doom-dashboard-functions #'doom-dashboard-custom-look)
+
+(remove-hook '+doom-dashboard-functions #'doom-dashboard-widget-shortmenu)
+(remove-hook '+doom-dashboard-functions #'doom-dashboard-widget-loaded)
+(remove-hook '+doom-dashboard-functions #'doom-dashboard-widget-footer)
 
 ;; Theme
 (setq doom-theme 'gruvbox-light-medium)
@@ -72,10 +67,14 @@
 (custom-theme-set-faces! 'gruvbox-light-medium '(mode-line :background "#ebdbb2"))
 (custom-theme-set-faces! 'gruvbox-light-medium '(line-number :foreground "#666666" :background "#fbf1c7"))
 
-;; Sexy DOOM splash-screen
-(remove-hook '+doom-dashboard-functions #'doom-dashboard-widget-shortmenu)
-(remove-hook '+doom-dashboard-functions #'doom-dashboard-widget-loaded)
-(remove-hook '+doom-dashboard-functions #'doom-dashboard-widget-footer)
+;; Mood line (super-minimalist mode-line)
+(use-package! mood-line
+  :config
+  (mood-line-mode))
+
+;; ######
+;; EDITOR
+;; ######
 
 ;; Relative Numbers
 (setq display-line-numbers-type 'relative)
@@ -88,10 +87,9 @@
 (setq-default fill-column 120)
 (global-display-fill-column-indicator-mode 1)
 
-;; Mood line (super-minimalist mode-line)
-(use-package! mood-line
-  :config
-  (mood-line-mode))
+;; Make word selection like vim
+(add-hook 'after-change-major-mode-hook
+  #'(lambda () (modify-syntax-entry ?_ "w")))
 
 ;; Use tree-sitter for better syntax-highlighting
 (global-tree-sitter-mode)
@@ -127,3 +125,25 @@
   (setq tramp-auto-save-directory nil)
   ;; Use rsync to sync remote files; faster on large files.
   (setq tramp-default-method "rsync"))
+
+(defun string-at-selection (m p)
+  (interactive "r")
+  (buffer-substring-no-properties m p)) ;
+
+(defun replace-selection (to-string)
+  (interactive "s")
+  (let ((from-string (call-interactively 'string-at-selection)))
+    (while (search-backward from-string 'nil t)
+        (replace-match to-string))
+    (while (search-forward from-string 'nil t)
+        (replace-match to-string))))
+
+;; ###########
+;; KEYBINDINGS
+;; ###########
+
+(map! :desc "Switch between source/header file" "M-o" #'lsp-clangd-find-other-file)
+
+(map! :desc "Clear search highlight" "C-l" #'evil-ex-nohighlight)
+
+(map! :nv :desc "GoTo references" "g r" #'+lookup/references)
