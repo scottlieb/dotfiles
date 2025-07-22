@@ -4,8 +4,10 @@
 ;; GLOBAL
 ;; ######
 
-(setq user-full-name "Amitai Gottlieb"
-      user-mail-address "amitaig@hailo.ai")
+(setq
+   user-full-name "Amitai Gottlieb"
+   user-mail-address "amitaig@hailo.ai"
+)
 
 ;; #############
 ;; LOOK AND FEEL
@@ -17,7 +19,8 @@
   (face-remap-add-relative 'doom-dashboard-banner '(:foreground "black"))
   (make-local-variable 'evil-normal-state-cursor)
   (setq mode-line-format nil)
-  (setq evil-normal-state-cursor '("#fbf1c6" 'bar)))
+  (setq evil-normal-state-cursor '("#fbf1c6" 'bar))
+)
 
 (add-hook '+doom-dashboard-functions #'doom-dashboard-custom-look)
 
@@ -32,9 +35,7 @@
 (custom-theme-set-faces! 'gruvbox-light-medium '(line-number :foreground "#666666" :background "#fbf1c7"))
 
 ;; Mood line (super-minimalist mode-line)
-(use-package! mood-line
-  :config
-  (mood-line-mode))
+(use-package! mood-line :config (mood-line-mode))
 
 ;; ######
 ;; EDITOR
@@ -47,13 +48,14 @@
 (setq scroll-step 1)
 (setq scroll-margin 15)
 
-;; Ruler at 120
+;; Ruler at 120 (we aren't in the 80's anymore)
 (setq-default fill-column 120)
 (global-display-fill-column-indicator-mode 1)
 
 ;; Make word selection like vim
 (add-hook 'after-change-major-mode-hook
-  #'(lambda () (modify-syntax-entry ?_ "w")))
+  #'(lambda () (modify-syntax-entry ?_ "w"))
+)
 
 ;; Use tree-sitter for better syntax-highlighting
 (global-tree-sitter-mode)
@@ -81,22 +83,35 @@
   :config
   ;; Fix Doom disabling vc in remote buffers
   (after! tramp
-    (setopt vc-ignore-dir-regexp locate-dominating-stop-dir-regexp)))
+    (setopt vc-ignore-dir-regexp locate-dominating-stop-dir-regexp)
+  )
+)
 
 ;; Tramp settings
 (after! tramp
   ;; https://github.com/doomemacs/doomemacs/issues/6502
   (setq tramp-auto-save-directory nil)
+  ;; projectile is slow AF over ssh.
+  (projectile-mode -1)
   ;; Use rsync to sync remote files; faster on large files.
-  (setq tramp-default-method "rsync"))
+  (setq tramp-default-method "rsync")
+)
 
 ;; ################
 ;; CUSTOM FUNCTIONS
 ;; ################
 
-(defun string-at-region (m p)
-  (interactive "r")
-  (buffer-substring-no-properties m p))
+(defun my/replace-symbol (to-string)
+  (interactive "sReplace symbol with :")
+  (let ((from-string (symbol-at-point)))
+    (save-excursion
+      (goto-char (point-min))
+      (while (search-forward (symbol-name from-string) nil t)
+        (replace-match to-string)
+      )
+    )
+  )
+)
 
 ;; ############
 ;; KEY-MAPPINGS
@@ -107,6 +122,12 @@
 (map! :desc "Clear search highlight" "C-l" #'evil-ex-nohighlight)
 
 (map! :map evil-motion-state-map
-  :desc "Go to References"      "gr" #'+lookup/references
-  :desc "Go to Definition"      "gd" #'+lookup/definition
+  :desc "Go to References" "gr" #'+lookup/references
+  :desc "Go to Definition" "gd" #'+lookup/definition
 )
+
+(unbind-key "C-/")
+(map! :v :Desc "Comment lines" "C-/" #'evilnc-comment-operator)
+(map! :n :Desc "Comment line"  "C-/" #'comment-line)
+
+(map! :nv :Desc "Search-and-replace in buffer for symbol at point" "C-*" #'my/replace-symbol)
