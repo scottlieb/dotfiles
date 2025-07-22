@@ -1,0 +1,89 @@
+# Remeber to source this file in your .bashrc!
+# More options found in `man bash`
+
+#########
+# HISTORY
+#########
+
+# Don't put duplicate lines or lines starting with space in the history.
+HISTCONTROL=ignoreboth
+
+# Append to the history file, don't overwrite it.
+shopt -s histappend
+
+# Set history length.
+HISTSIZE=5000
+HISTFILESIZE=10000
+
+###############
+# LOOK AND FEEL
+###############
+
+# Check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+
+# Git branch in prompt.
+parse_git_branch() {
+    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}
+export PS1="\u@\h \W\[\033[32m\]\$(parse_git_branch)\[\033[00m\] \n$ "
+
+#####
+# FZF
+#####
+
+# fzf bash support
+# git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+# ~/.fzf/install
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+######
+# TMUX
+######
+
+[ -z "$TMUX" ] && { tmux a || tmux && exit; }
+
+#########
+# ALIASES
+#########
+
+# ls
+alias ll='ls -AlF'
+alias la='ls -A'
+alias l='ls -CF'
+
+# auto sudo
+alias dmesg="sudo dmesg"
+alias apt="sudo apt"
+
+# git
+alias g=git
+alias ga="git add"
+alias gaa="git add --all"
+alias gap="git add -p"
+alias gb="git branch"
+alias gbd="git branch -D"
+alias gc="git commit"
+alias gca="git commit --amend"
+alias gcm="git commit -m"
+alias gcam="git commit --all -m"
+alias gco="git checkout"
+alias gcob="git checkout -b"
+alias gcp="git cherry-pick"
+alias gf="git fetch"
+alias gg="git log --graph --date=relative --pretty=short"
+alias gl="git pull"
+alias gp="git push"
+alias gpf="git push -f"
+alias grb="git rebase"
+alias grbi="git rebase -i"
+alias gs="git status"
+
+alias gcb="git branch | fzf --preview 'git show --color=always {-1}' \
+              --bind 'enter:become(git checkout {-1})' \
+              --height 40% --layout reverse"
+
+# Hailo stuff
+alias build="./build.sh help > /dev/null; ./build.sh help | cut  -d' ' \
+                -f2 | fzf | xargs -I {} ./build.sh {}"
