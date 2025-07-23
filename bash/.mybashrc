@@ -42,8 +42,16 @@ export PS1="\u@\h \W\[\033[32m\]\$(parse_git_branch)\[\033[00m\] \n$ "
 # TMUX
 ######
 
-# Always open a new tmux session.
-[ -z "$TMUX" ] && { tmux && exit; }
+# Attatch to the first unnatached session or create a new one.
+if [ -z $TMUX ]
+then
+    N=$(tmux ls | grep -v attached | head -1 | cut -d: -f1)
+    if [[ ! -z $N ]]
+    then
+        ATTACH_OPTS="attach -t $N"
+    fi
+    exec tmux $ATTACH_OPTS
+fi
 
 #########
 # ALIASES
@@ -83,7 +91,8 @@ alias gp="git push"
 alias gpf="git push -f"
 alias grb="git rebase"
 alias grbi="git rebase -i"
-alias gs="git status -s"
+alias gs="git status"
+alias gss="git status -s"
 
 alias gcb="git branch | fzf --preview 'git show --color=always {-1}' \
               --bind 'enter:become(git checkout {-1})' \
