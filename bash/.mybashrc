@@ -65,6 +65,7 @@ alias l='ls -CF'
 # auto-sudo
 alias dmesg="sudo dmesg"
 alias apt="sudo apt"
+alias dpkg="sudo dpkg"
 
 # git
 alias g=git
