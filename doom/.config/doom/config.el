@@ -52,6 +52,10 @@
 (setq-default fill-column 120)
 (global-display-fill-column-indicator-mode 1)
 
+(add-hook 'vterm-mode-hook
+  #'(lambda () (display-fill-column-indicator-mode -1))
+)
+
 ;; Make word selection like vim
 (add-hook 'after-change-major-mode-hook
   #'(lambda () (modify-syntax-entry ?_ "w"))
@@ -91,7 +95,7 @@
 (after! tramp
   ;; https://github.com/doomemacs/doomemacs/issues/6502
   (setq tramp-auto-save-directory nil)
-  ;; projectile is slow AF over ssh.
+  ;; projectectile is slow AF over ssh.
   (projectile-mode -1)
   ;; Use rsync to sync remote files; faster on large files.
   (setq tramp-default-method "rsync")
@@ -113,6 +117,28 @@
   )
 )
 
+(defvar my/ssh-projectects nil
+  "List of SSH projectects to open (using `SPC o s`)"
+)
+
+(setq-default my/ssh-projectects '(
+  ("10.41.75.37" . "/local/users/amitaig/platform-sw")
+  ("10.41.75.37" . "/local/users/amitaig/scu-fw")
+))
+
+(defun my/ssh--project-to-string (project)
+  "Internal: map (<project> . <dir>) to tramp-readable string"
+  (concat "/ssh:" (car project) ":" (cdr project))
+)
+
+(defun my/open-ssh ()
+  "Search for and open an SSH projectect listed in my/ssh-projectects"
+  (interactive)
+  (let ((project (completing-read "Known SSH projects: " (mapcar 'my/ssh--project-to-string my/ssh-projectects))))
+    (find-file project)
+  )
+)
+
 ;; ############
 ;; KEY-MAPPINGS
 ;; ############
@@ -130,4 +156,6 @@
 (map! :v :Desc "Comment lines" "C-/" #'evilnc-comment-operator)
 (map! :n :Desc "Comment line"  "C-/" #'comment-line)
 
+;; my/
 (map! :nv :Desc "Search-and-replace in buffer for symbol at point" "C-*" #'my/replace-symbol)
+(map! :nv :Desc "Open new ssh connection" :leader "os" #'my/open-ssh)
