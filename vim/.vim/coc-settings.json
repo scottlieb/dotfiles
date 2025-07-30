@@ -1,6 +1,0 @@
-{
-    "suggest.noselect": true,
-    "diagnostic.checkCurrentLine": true,
-    "suggest.maxCompleteItemCount": 5,
-    "inlayHint.enable": false
-}
