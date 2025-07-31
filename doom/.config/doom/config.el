@@ -124,6 +124,7 @@
 (setq-default my/ssh-projectects '(
   ("10.41.75.37" . "/local/users/amitaig/platform-sw")
   ("10.41.75.37" . "/local/users/amitaig/scu-fw")
+  ("10.41.75.37" . "~")
 ))
 
 (defun my/ssh--project-to-string (project)
