@@ -101,4 +101,4 @@ alias gcb="git branch | fzf --preview 'git show --color=always {-1}' \
 
 # Hailo stuff
 alias build="./build.sh help > /dev/null; ./build.sh help | cut  -d' ' \
-                -f2 | fzf | xargs -I {} ./build.sh {}"
+                -f2 | fzf | xargs -I {} ./build.sh -brelease {}"
