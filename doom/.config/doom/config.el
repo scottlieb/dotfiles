@@ -21,7 +21,6 @@
   (setq mode-line-format nil)
   (setq evil-normal-state-cursor '("#fbf1c6" 'bar))
 )
-
 (add-hook '+doom-dashboard-functions #'doom-dashboard-custom-look)
 
 (remove-hook '+doom-dashboard-functions #'doom-dashboard-widget-shortmenu)
@@ -52,6 +51,7 @@
 (setq-default fill-column 120)
 (global-display-fill-column-indicator-mode 1)
 
+;; No ruler in vterm mode
 (add-hook 'vterm-mode-hook
   #'(lambda () (display-fill-column-indicator-mode -1))
 )
@@ -74,7 +74,7 @@
 (setq auto-save-visited-interval 1)
 (auto-save-visited-mode +1)
 
-;; No backup files, please
+;; No backup files, please (I use git)
 (setq make-backup-files nil)
 
 ;; ##############
@@ -93,36 +93,41 @@
 
 ;; Tramp settings
 (after! tramp
+  ;; Don't fill up my history with Tramp thnigs, please.
+  (setq tramp-histfile-override t)
   ;; https://github.com/doomemacs/doomemacs/issues/6502
   (setq tramp-auto-save-directory nil)
-  ;; projectectile is slow AF over ssh.
-  (projectile-mode -1)
   ;; Use rsync to sync remote files; faster on large files.
   (setq tramp-default-method "rsync")
+  ;; This stops tramp from hanging on slow connection for some reason...
+  (setq tramp-verbose 5)
 )
 
 ;; ################
 ;; CUSTOM FUNCTIONS
 ;; ################
 
-(defun my/replace-symbol (to-string)
-  (interactive "sReplace symbol with :")
+(defun my/replace-symbol ()
+  (interactive)
   (let ((from-string (symbol-at-point)))
-    (save-excursion
-      (goto-char (point-min))
-      (while (search-forward (symbol-name from-string) nil t)
-        (replace-match to-string)
+    (let ((to-string (read-string (format "Replace \'%s\' with: " from-string))))
+      (save-excursion
+        (goto-char (point-min))
+        (while (search-forward (symbol-name from-string) nil t)
+          (replace-match to-string)
+        )
       )
     )
   )
 )
 
-(defvar my/ssh-projectects nil
-  "List of SSH projectects to open (using `SPC o s`)"
+(defvar ssh-projects nil
+  "List of SSH projects to open (using `SPC o s`)"
 )
 
-(setq-default my/ssh-projectects '(
+(setq-default ssh-projects '(
   ("10.41.75.37" . "/local/users/amitaig/platform-sw")
+  ("10.41.75.37" . "/local/users/amitaig/platform-sw/firmware")
   ("10.41.75.37" . "/local/users/amitaig/scu-fw")
   ("10.41.75.37" . "~")
 ))
@@ -132,12 +137,18 @@
   (concat "/ssh:" (car project) ":" (cdr project))
 )
 
-(defun my/open-ssh ()
-  "Search for and open an SSH projectect listed in my/ssh-projectects"
+(defun my/ssh-open ()
+  "Search for and open an SSH project listed in ssh-projects"
   (interactive)
-  (let ((project (completing-read "Known SSH projects: " (mapcar 'my/ssh--project-to-string my/ssh-projectects))))
+  (let ((project (completing-read "Known SSH projects: " (mapcar 'my/ssh--project-to-string ssh-projects))))
     (find-file project)
   )
+)
+
+(defun my/exec-python (cmd)
+  "Execute python code from the minibuffer"
+  (interactive "spython3: ")
+  (shell-command (format "python3 -c \"print(eval(\\\"%s\\\"))\"" (string-replace "\"" "'" cmd)))
 )
 
 ;; ############
@@ -157,6 +168,14 @@
 (map! :v :Desc "Comment lines" "C-/" #'evilnc-comment-operator)
 (map! :n :Desc "Comment line"  "C-/" #'comment-line)
 
+(unbind-key "<f2>")
+(map! :nv :Desc "Lsp rename" "<f2>" #'lsp-rename)
+
 ;; my/
 (map! :nv :Desc "Search-and-replace in buffer for symbol at point" "C-*" #'my/replace-symbol)
-(map! :nv :Desc "Open new ssh connection" :leader "os" #'my/open-ssh)
+(map! :nv :Desc "Open new ssh connection" :leader "os" #'my/ssh-open)
+
+;; exec
+(map! :nv :Desc "Execute python code in the minibuffer" :leader "ep" #'my/exec-python)
+(map! :nv :Desc "Execute shell code in the minibuffer" :leader "es" #'shell-command)
+(map! :nv :Desc "Execute elsip code in the minibuffer" :leader "el" #'eval-expression)
