@@ -57,6 +57,9 @@ fi
 # ALIASES
 #########
 
+# easy exit
+alias q="exit"
+
 # ls
 alias ll='ls -AlF'
 alias la='ls -A'
