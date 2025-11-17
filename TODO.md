@@ -1,11 +1,5 @@
-## Things still not working
+## Things still to do:
 
-- Add BG image (Pictures/Wallpapers/nord_hill.png)
-- Add script to install dependencies (i3, rofi, feh, compton, fzf, nodejs (for coc-vim))
-- terminal colorscheme
-- gtk theme + icons
-- some font-awsome doesnt work by default (ws 2,3 not rendering)
-- Xmodmap
-- tmux plugin (tpm)
-- dunst
-- pasystary volume control
+- Change language to english on screen lock for pswd
+- Auto-detect keyboard/screens
+- Better volume control, maybe?
