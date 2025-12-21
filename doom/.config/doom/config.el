@@ -65,6 +65,10 @@
 (global-tree-sitter-mode)
 (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
 
+;; from: https://www.reddit.com/r/DoomEmacs/comments/puu14q/help_with_setting_up_c20_environment_in_doom_emacs/
+(setq lsp-clients-clangd-args '("--header-insertion=never"))
+(after! lsp-clangd (set-lsp-priority! 'clangd 2))
+
 ;; #############################
 ;; FILES, AUTO-SAVES AND BACKUPS
 ;; #############################
@@ -127,8 +131,8 @@
 
 (setq-default ssh-projects '(
   ("10.41.75.37" . "/local/users/amitaig/platform-sw")
-  ("10.41.75.37" . "/local/users/amitaig/platform-sw/firmware")
   ("10.41.75.37" . "/local/users/amitaig/scu-fw")
+  ("10.41.75.37" . "/local/users/amitaig/")
   ("10.41.75.37" . "~")
 ))
 

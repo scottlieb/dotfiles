@@ -21,8 +21,8 @@
        ;;layout            ; auie,ctsrnm is the superior home row
 
        :completion
-       company           ; the ultimate code completion backend
-       ;;(corfu +orderless)  ; complete with cap(f), cape and a flying feather!
+       ;; company           ; the ultimate code completion backend
+       (corfu +orderless)  ; complete with cap(f), cape and a flying feather!
        ;;helm              ; the *other* search engine for love and life
        ;;ido               ; the other *other* search engine...
        ;;ivy               ; a search engine for love and life
@@ -69,7 +69,7 @@
 
        :emacs
        dired             ; making dired pretty [functional]
-       electric          ; smarter, keyword-based electric-indent
+       ;;electric          ; smarter, keyword-based electric-indent
        ;;eww               ; the internet is gross
        ;;ibuffer           ; interactive buffer management
        undo              ; persistent, smarter undo for your inevitable mistakes
@@ -192,7 +192,3 @@
        :config
        ;;literate
        (default +bindings +smartparens))
-
-;; from: https://www.reddit.com/r/DoomEmacs/comments/puu14q/help_with_setting_up_c20_environment_in_doom_emacs/
-(setq lsp-clients-clangd-args '("--header-insertion=never"))
-(after! lsp-clangd (set-lsp-priority! 'clangd 2))
