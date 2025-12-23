@@ -1,22 +1,19 @@
 configuration {
     font: "JetBrainsMono NF 10";
-    line-margin: 10;
 
-    display-ssh:    "ssh";
-    display-run:    "run";
-    display-drun:   ">>";
-    display-window: "";
-    display-combi:  "";
-    show-icons:     true;
+    modi: "";
+    display-drun:   ":";
+    display-ssh:    "ssh:";
+    display-window: ":";
+
+    show-icons: true;
+    drun-display-format: "{name}";
 }
 
 @theme "~/.config/rofi/gruvbox-dark.rasi"
 
 listview {
-	lines: 5;
-	columns: 1;
+	lines: 1;
+	columns: 5;
 }
 
-window {
-	width: 30%;
-}

@@ -103,6 +103,7 @@ bindsym $mod+BackSpace kill
 
 bindsym $mod+space exec "rofi -show drun"
 bindsym $mod+c exec "rofi -show ssh"
+bindsym Mod1+Tab exec "rofi -show window"
 
 # change focus
 bindsym $mod+h focus left

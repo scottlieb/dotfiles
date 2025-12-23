@@ -19,24 +19,26 @@
     background-color: @bg0;
 }
 
-window {
-    border: 0 0 0 0;
-    border-color: @grey0;
-}
-
 mainbox {
     spacing: 0;
     children: [inputbar, message, listview];
 }
 
+window {
+    width: 60%;
+    y-offset: -15%;
+    border: 3 3 3 3;
+    border-color: @grey0;
+}
+
 inputbar {
     color: @fg0;
-    padding: 14;
+    padding: 10;
     background-color: @bg0;
 }
 
 message {
-    padding: 10;
+    padding: 5;
     background-color: @grey0;
 }
 
@@ -62,12 +64,11 @@ entry, prompt, case-indicator {
 }
 
 prompt {
-    margin: 0 10 0 0;
+    margin: 0 0 0 0;
 }
 
 element {
-    padding: 5;
-    vertical-align: 0.5;
+    padding: 10;
     background-color: @bg1;
 }
 
@@ -96,9 +97,8 @@ element.selected.urgent {
 }
 
 element-text, element-icon {
-    size: 40;
-    margin: 0 10 0 0;
-    vertical-align: 0.5;
+    size: 15;
+    margin: 0 0 0 5;
     background-color: inherit;
     text-color: @fg0;
 }
