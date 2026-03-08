@@ -134,8 +134,6 @@ bindsym $mod+a workspace number $ws1
 bindsym $mod+s workspace number $ws2
 bindsym $mod+d workspace number $ws3
 bindsym $mod+f workspace number $ws4
-bindsym $mod+p workspace number $ws9
-bindsym $mod+n workspace number $ws10
 bindsym $mod+Shift+a move container to workspace number $ws1
 bindsym $mod+Shift+s move container to workspace number $ws2
 bindsym $mod+Shift+d move container to workspace number $ws3

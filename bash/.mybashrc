@@ -1,6 +1,9 @@
 # Remeber to source this file in your .bashrc!
 # More options found in `man bash`
 
+export EDITOR="vim"
+export VISUAL="vim"
+
 #########
 # HISTORY
 #########
@@ -101,6 +104,13 @@ alias gss="git status -s"
 alias gcb="git branch | fzf --preview 'git show --color=always {-1}' \
               --bind 'enter:become(git checkout {-1})' \
               --height 40% --layout reverse"
+
+#########
+# GENERAL
+#########
+
+# add doom to PATH
+PATH="$HOME/.config/emacs/bin/:$PATH"
 
 # Hailo stuff
 alias build="./build.sh help > /dev/null; ./build.sh help | cut  -d' ' \

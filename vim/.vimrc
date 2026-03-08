@@ -60,6 +60,8 @@ set cursorline
 set signcolumn=number
 set nowrap
 
+set path+=**/*
+
 set ignorecase
 set smartcase
 

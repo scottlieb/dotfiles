@@ -1,6 +1,7 @@
 #!/bin/bash
 
-scrot /tmp/screenshot.png
-convert /tmp/screenshot.png -blur 0x5 /tmp/screenshotblur.png
-i3lock -i /tmp/screenshotblur.png
-rm /tmp/screenshot.png /tmp/screenshotblur.png
+setxkbmap us
+convert ~/Pictures/Wallpapers/nord_hill.png -resize 1920 /tmp/screenshotblur.png
+i3lock -k -i /tmp/screenshotblur.png
+rm /tmp/screenshotblur.png
+xmodmap ~/.Xmodmap

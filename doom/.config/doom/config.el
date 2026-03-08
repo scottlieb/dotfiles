@@ -29,7 +29,8 @@
 
 ;; Theme
 (setq doom-theme 'gruvbox-light-medium)
-(setq doom-font (font-spec :family "JetBrainsMono NF" :size 15))
+;; (setq doom-font (font-spec :family "JetBrainsMono NF" :size 15))
+(setq doom-font (font-spec :family "JetBrainsMono NF" :size 17))
 (custom-theme-set-faces! 'gruvbox-light-medium '(mode-line :background "#ebdbb2"))
 (custom-theme-set-faces! 'gruvbox-light-medium '(line-number :foreground "#666666" :background "#fbf1c7"))
 
@@ -125,9 +126,7 @@
   )
 )
 
-(defvar ssh-projects nil
-  "List of SSH projects to open (using `SPC o s`)"
-)
+(defvar ssh-projects nil "List of SSH projects to open (using `SPC o s`)")
 
 (setq-default ssh-projects '(
   ("10.41.75.37" . "/local/users/amitaig/platform-sw")
@@ -161,11 +160,15 @@
 
 (map! :desc "Switch between source/header file" "M-o" #'lsp-clangd-find-other-file)
 
+(map! :desc "Format Buffer" "M-l" #'lsp-format-buffer)
+(map! :desc "Format Region" "M-L" #'lsp-format-region)
+
 (map! :desc "Clear search highlight" "C-l" #'evil-ex-nohighlight)
 
 (map! :map evil-motion-state-map
-  :desc "Go to References" "gr" #'+lookup/references
-  :desc "Go to Definition" "gd" #'+lookup/definition
+  :desc "Go to References"      "gr" #'+lookup/references
+  :desc "Go to Definition"      "gd" #'+lookup/definition
+  :desc "Go to Implementations" "gd" #'+lookup/implementations
 )
 
 (unbind-key "C-/")
