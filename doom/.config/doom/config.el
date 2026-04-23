@@ -62,9 +62,19 @@
   #'(lambda () (modify-syntax-entry ?_ "w"))
 )
 
+;; ####
+;; CODE
+;; ####
+
 ;; Use tree-sitter for better syntax-highlighting
 (global-tree-sitter-mode)
 (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
+
+;; Emacs lisp
+(setq lisp-indent-offset 2)
+
+;; Remove dcl-mode (it interferes with the scratch-buffer)
+(delete '("\\.com\\'" . dcl-mode) auto-mode-alist)
 
 ;; from: https://www.reddit.com/r/DoomEmacs/comments/puu14q/help_with_setting_up_c20_environment_in_doom_emacs/
 (setq lsp-clients-clangd-args '("--header-insertion=never"))
@@ -184,5 +194,5 @@
 
 ;; exec
 (map! :nv :Desc "Execute python code in the minibuffer" :leader "ep" #'my/exec-python)
-(map! :nv :Desc "Execute shell code in the minibuffer" :leader "es" #'shell-command)
-(map! :nv :Desc "Execute elsip code in the minibuffer" :leader "el" #'eval-expression)
+(map! :nv :Desc "Execute shell code in the minibuffer"  :leader "es" #'shell-command)
+(map! :nv :Desc "Execute elsip code in the minibuffer"  :leader "el" #'eval-expression)
