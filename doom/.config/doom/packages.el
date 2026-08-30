@@ -51,3 +51,7 @@
 (package! diff-hl)
 (package! gruvbox-theme)
 (package! mood-line)
+
+;; Take a newer commit for lsp-mode to get a bugfix.
+;; TODO: remove this once doom-emacs pin is updated.
+(package! lsp-mode :pin "8465450ddef60db7cb94236f55914ba90ab78c4c")
